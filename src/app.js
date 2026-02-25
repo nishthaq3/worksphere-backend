@@ -5,6 +5,8 @@ import rateLimit from "express-rate-limit";
 import mongoSanitize from "express-mongo-sanitize";
 import xss from "xss-clean";
 
+import authRoutes from "./routes/authRoutes.js";
+
 const app=express();
 
 //middlewares
@@ -25,6 +27,7 @@ app.use(mongoSanitize());
 
 app.use(xss());
 
+app.use("/api/auth",authRoutes);
 app.get("/api/health",(req,res)=>{
 	res.status(200).json({
 		success: true,

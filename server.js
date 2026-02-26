@@ -1,20 +1,15 @@
 import dotenv from "dotenv";
-import mongoose from "mongoose";
 import app from "./src/app.js";
+import connectDB from "./src/config/db.js";
 
 dotenv.config();
-const PORT=process.env.PORT || 8000;
 
-//connecting database
+const PORT = process.env.PORT || 8000;
 
-mongoose.connect(process.env.MONGO_URI)
-.then(()=>{
-	console.log("MongoDB Connected successfully");
-
-	app.listen(PORT,()=>{
-		console.log(`Server running on port ${PORT}`);
+// Connect to MongoDB then start the server
+connectDB().then(() => {
+	app.listen(PORT, () => {
+		console.log(`🚀 WorkSphere server running on port ${PORT}`);
+		console.log(`📡 Environment: ${process.env.NODE_ENV}`);
 	});
-})
-.catch((error)=>{
-	console.log("Failed to connect to MongoDB",error);
-})
+});

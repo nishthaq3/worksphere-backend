@@ -1,4 +1,5 @@
 import Project from "../models/Project.js";
+import User from "../models/Users.js";
 
 export const createProject=async(data,userId)=>{
 	const{name,description}=data;
@@ -34,4 +35,30 @@ export const getProjects=async(user)=>{
 		  .populate("employees", "name email role");
 	  }
 	return projects;
+}
+
+//assigning a manager
+export const assignManager=async(projectId,managerId)=>{
+	//check project exists
+	//check if user exits
+	//check if role is manager
+	const project=await Project.findById(projectId);
+	if(!project){
+		throw new error("Project not found. Please create Project first!")
+	}
+
+	const user=await User.findById(managerId);
+	if(!user){
+		throw new error("User not found");
+	}
+
+	if(user.role !== "manager"){
+		throw new error("Sorry! Can only assign projects to managers")
+    }
+	
+	//assign manager
+	project.manager=managerId;
+	await project.save();
+
+	return project;
 }

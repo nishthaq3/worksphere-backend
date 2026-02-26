@@ -12,7 +12,7 @@ export const registerUser=async(data)=>{
 	}
 
 	//hash pass
-	const hashedPass=await brcypt.hash(password,10);
+	const hashedPass=await bcrypt.hash(password,10);
 
 	//create user
 	const user=await User.create({

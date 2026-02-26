@@ -1,4 +1,5 @@
 import { createProject } from "../services/projectServices.js";
+import { getProjects } from "../services/projectServices.js";
 
 export const createProjectController = async (req, res) => {
   try {
@@ -17,3 +18,20 @@ export const createProjectController = async (req, res) => {
     });
   }
 };
+
+export const getProjectsController = async (req, res) => {
+	try {
+	  const projects = await getProjects(req.user);
+  
+	  return res.status(200).json({
+		success: true,
+		data: projects
+	  });
+  
+	} catch (error) {
+	  return res.status(400).json({
+		success: false,
+		message: error.message
+	  });
+	}
+  };
